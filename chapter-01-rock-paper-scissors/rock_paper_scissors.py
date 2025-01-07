@@ -1,84 +1,52 @@
 import random
 
-# Function to display the start message
+hands = ['rock', 'scissors', 'paper']
+
+
 def start_message():
-    print("\nWelcome to the Rock-Paper-Scissors Game!")
-    print("Instructions: Enter your choice as 0 (rock), 1 (scissors), or 2 (paper).")
+    print('Start \'rock-paper-scissors\'')
 
-# Function to get player's choice with input validation
+
 def get_player():
-    while True:
-        try:
-            player = int(input("\nYour choice (0 = rock, 1 = scissors, 2 = paper): "))
-            if player in [0, 1, 2]:
-                return player
-            else:
-                print("Invalid choice. Please enter 0, 1, or 2.")
-        except ValueError:
-            print("Invalid input. Please enter a number.")
+    print('Input your hand')
+    return int(input('0:rock, 1:scissors, 2:paper'))
 
-# Function to get computer's choice
+
 def get_computer():
     return random.randint(0, 2)
 
-# Function to display hand names
-def display_hands(player, computer):
-    hands = ["rock", "scissors", "paper"]
-    print(f"\nYou chose: {hands[player]}")
-    print(f"Computer chose: {hands[computer]}")
 
-# Function to determine and return the result
-def determine_result(player, computer):
-    if player == computer:
-        print("It's a draw!")
-        return "draw"
-    elif (player == 0 and computer == 1) or (player == 1 and computer == 2) or (player == 2 and computer == 0):
-        print("You win this round!")
-        return "win"
+def get_hand_name(hand_number):
+    return hands[hand_number]
+
+
+def view_hand(your_hand, computer_hand):
+    print('My hand is ' + get_hand_name(your_hand))
+    print('Rival\'s hand is ' + get_hand_name(computer_hand))
+
+
+def view_result(hand_diff):
+    if hand_diff == 0:
+        print('draw')
+    elif hand_diff == -1 or hand_diff == 2:
+        print('win')
     else:
-        print("You lose this round!")
-        return "lose"
+        print('lose')
 
-# Main game function
+
 def play_game():
+    # Start the game
     start_message()
-    player = get_player()
-    computer = get_computer()
-    display_hands(player, computer)
-    return determine_result(player, computer)
+    # Get the player's choice and the computer's choice
+    your_hand = get_player()
+    computer_hand = get_computer()
+    # Calculate the difference between the player's hand and the computer's hand
+    hand_diff = your_hand - computer_hand
+    # Show both hands to the player
+    view_hand(your_hand, computer_hand)
+    # Determine and display the result of the game
+    view_result(hand_diff)
 
-# Replay function with input validation
-def ask_replay():
-    while True:
-        replay = input("\nDo you want to play again? (yes/no): ").lower()
-        if replay in ["yes", "no"]:
-            return replay == "yes"
-        print("Invalid input. Please enter 'yes' or 'no'.")
 
-# Main program loop with scorekeeping
-def main():
-    print("\n=== Rock-Paper-Scissors Game ===")
-    player_score = 0
-    computer_score = 0
-    draws = 0
-
-    while True:
-        result = play_game()
-        if result == "win":
-            player_score += 1
-        elif result == "lose":
-            computer_score += 1
-        else:
-            draws += 1
-
-        print("\nCurrent Scores:")
-        print(f"Player: {player_score} | Computer: {computer_score} | Draws: {draws}")
-
-        if not ask_replay():
-            print("\nThanks for playing!")
-            print(f"Final Scores: Player: {player_score} | Computer: {computer_score} | Draws: {draws}")
-            print("Goodbye! Have a great day!")
-            break
-
-# Run the game
-main()
+# Play the game
+play_game()
